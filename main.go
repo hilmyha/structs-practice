@@ -1,47 +1,36 @@
 package main
 
 import (
-	"errors"
 	"fmt"
+
+	"github.com/hilmyha/structs-practice/note"
 )
 
 func main() {
 	fmt.Println("Note taker")
-	title, content, err := getNoteData()
+	title, content := getNoteData()
+
+	userNote, err := note.New(title, content)
 
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(title)
-	fmt.Println(content)
+	userNote.Display()
 }
 
-func getNoteData() (string, string, error) {
-	title, err := getUserInput("Title: ")
+func getNoteData() (string, string) {
+	title := getUserInput("Title: ")
+	content := getUserInput("Content: ")
 
-	if err != nil {
-		return "", "", err
-	}
-
-	content, err := getUserInput("Content: ")
-
-	if err != nil {
-		return "", "", err
-	}
-
-	return title, content, nil
+	return title, content
 }
 
-func getUserInput(prompt string) (string, error) {
+func getUserInput(prompt string) (string) {
 	fmt.Print(prompt)
 	var value string
 	fmt.Scanln(&value)
-
-	if value == "" {
-		return "", errors.New("Value cannot be empty")
-	}
 	
-	return value, nil
+	return value
 }
