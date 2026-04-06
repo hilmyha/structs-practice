@@ -7,11 +7,21 @@ import (
 	"strings"
 
 	"github.com/hilmyha/structs-practice/note"
+	"github.com/hilmyha/structs-practice/todo"
 )
 
 func main() {
 	fmt.Println("Note taker")
 	title, content := getNoteData()
+
+	todoText := getUserInput("Todo text: ")
+
+	userTodo, err :=	todo.New(todoText)
+	
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
 	userNote, err := note.New(title, content)
 
@@ -19,6 +29,17 @@ func main() {
 		fmt.Println(err)
 		return
 	}
+
+
+	userTodo.Display()
+	err = userTodo.Save()
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println("Todo saved successfully")
 
 	userNote.Display()
 	err = userNote.Save()
@@ -29,6 +50,12 @@ func main() {
 	}
 
 	fmt.Println("Note saved successfully")
+}
+
+func getTodoData() string {
+	text := getUserInput("Todo text: ")
+	
+	return text
 }
 
 func getNoteData() (string, string) {
