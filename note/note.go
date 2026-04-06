@@ -13,7 +13,7 @@ type Note struct {
 }
 
 func (note Note) Display() {
-	fmt.Printf("Your title %v has the following content\n\n%v\n", note.title, note.content)
+	fmt.Printf("Your title %v has the following content\n\n%v\n\n", note.title, note.content)
 }
 
 func New(title, content string) (Note, error) {
