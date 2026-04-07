@@ -10,6 +10,10 @@ import (
 	"github.com/hilmyha/structs-practice/todo"
 )
 
+type saver interface {
+	Save() error
+}
+
 func main() {
 	fmt.Println("Note taker")
 	title, content := getNoteData()
@@ -30,26 +34,19 @@ func main() {
 		return
 	}
 
-
 	userTodo.Display()
-	err = userTodo.Save()
+	err = saveData(userTodo)
 
 	if err != nil {
-		fmt.Println(err)
 		return
 	}
-
-	fmt.Println("Todo saved successfully")
 
 	userNote.Display()
-	err = userNote.Save()
+	err = saveData(userNote)
 
 	if err != nil {
-		fmt.Println(err)
 		return
 	}
-
-	fmt.Println("Note saved successfully")
 }
 
 func getTodoData() string {
@@ -63,6 +60,19 @@ func getNoteData() (string, string) {
 	content := getUserInput("Content: ")
 
 	return title, content
+}
+
+func saveData(data saver) error {
+	err := data.Save()
+
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	fmt.Println("Data saved successfully")
+	
+	return nil
 }
 
 func getUserInput(prompt string) (string) {
